@@ -1,0 +1,602 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 50;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		55C4422321BF0743000A3130 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55C4422221BF0743000A3130 /* AppDelegate.swift */; };
+		55C4422521BF0743000A3130 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55C4422421BF0743000A3130 /* ViewController.swift */; };
+		55C4422721BF0744000A3130 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 55C4422621BF0744000A3130 /* Assets.xcassets */; };
+		55C4422A21BF0744000A3130 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 55C4422821BF0744000A3130 /* Main.storyboard */; };
+		55C4423621BF0744000A3130 /* clouddatabasemacTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55C4423521BF0744000A3130 /* clouddatabasemacTests.swift */; };
+		55C4424121BF0744000A3130 /* clouddatabasemacUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55C4424021BF0744000A3130 /* clouddatabasemacUITests.swift */; };
+		55C4425021BF075E000A3130 /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 55C4424F21BF075E000A3130 /* CloudKit.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		55C4423221BF0744000A3130 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 55C4421721BF0743000A3130 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 55C4421E21BF0743000A3130;
+			remoteInfo = clouddatabasemac;
+		};
+		55C4423D21BF0744000A3130 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 55C4421721BF0743000A3130 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 55C4421E21BF0743000A3130;
+			remoteInfo = clouddatabasemac;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		55C4421F21BF0743000A3130 /* clouddatabasemac.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = clouddatabasemac.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		55C4422221BF0743000A3130 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		55C4422421BF0743000A3130 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		55C4422621BF0744000A3130 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		55C4422921BF0744000A3130 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		55C4422B21BF0744000A3130 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		55C4422C21BF0744000A3130 /* clouddatabasemac.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = clouddatabasemac.entitlements; sourceTree = "<group>"; };
+		55C4423121BF0744000A3130 /* clouddatabasemacTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = clouddatabasemacTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		55C4423521BF0744000A3130 /* clouddatabasemacTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = clouddatabasemacTests.swift; sourceTree = "<group>"; };
+		55C4423721BF0744000A3130 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		55C4423C21BF0744000A3130 /* clouddatabasemacUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = clouddatabasemacUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		55C4424021BF0744000A3130 /* clouddatabasemacUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = clouddatabasemacUITests.swift; sourceTree = "<group>"; };
+		55C4424221BF0744000A3130 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		55C4424F21BF075E000A3130 /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		55C4421C21BF0743000A3130 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				55C4425021BF075E000A3130 /* CloudKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		55C4422E21BF0744000A3130 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		55C4423921BF0744000A3130 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		55C4421621BF0743000A3130 = {
+			isa = PBXGroup;
+			children = (
+				55C4422121BF0743000A3130 /* clouddatabasemac */,
+				55C4423421BF0744000A3130 /* clouddatabasemacTests */,
+				55C4423F21BF0744000A3130 /* clouddatabasemacUITests */,
+				55C4422021BF0743000A3130 /* Products */,
+				55C4424E21BF075E000A3130 /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		55C4422021BF0743000A3130 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				55C4421F21BF0743000A3130 /* clouddatabasemac.app */,
+				55C4423121BF0744000A3130 /* clouddatabasemacTests.xctest */,
+				55C4423C21BF0744000A3130 /* clouddatabasemacUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		55C4422121BF0743000A3130 /* clouddatabasemac */ = {
+			isa = PBXGroup;
+			children = (
+				55C4422221BF0743000A3130 /* AppDelegate.swift */,
+				55C4422421BF0743000A3130 /* ViewController.swift */,
+				55C4422621BF0744000A3130 /* Assets.xcassets */,
+				55C4422821BF0744000A3130 /* Main.storyboard */,
+				55C4422B21BF0744000A3130 /* Info.plist */,
+				55C4422C21BF0744000A3130 /* clouddatabasemac.entitlements */,
+			);
+			path = clouddatabasemac;
+			sourceTree = "<group>";
+		};
+		55C4423421BF0744000A3130 /* clouddatabasemacTests */ = {
+			isa = PBXGroup;
+			children = (
+				55C4423521BF0744000A3130 /* clouddatabasemacTests.swift */,
+				55C4423721BF0744000A3130 /* Info.plist */,
+			);
+			path = clouddatabasemacTests;
+			sourceTree = "<group>";
+		};
+		55C4423F21BF0744000A3130 /* clouddatabasemacUITests */ = {
+			isa = PBXGroup;
+			children = (
+				55C4424021BF0744000A3130 /* clouddatabasemacUITests.swift */,
+				55C4424221BF0744000A3130 /* Info.plist */,
+			);
+			path = clouddatabasemacUITests;
+			sourceTree = "<group>";
+		};
+		55C4424E21BF075E000A3130 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				55C4424F21BF075E000A3130 /* CloudKit.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		55C4421E21BF0743000A3130 /* clouddatabasemac */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 55C4424521BF0744000A3130 /* Build configuration list for PBXNativeTarget "clouddatabasemac" */;
+			buildPhases = (
+				55C4421B21BF0743000A3130 /* Sources */,
+				55C4421C21BF0743000A3130 /* Frameworks */,
+				55C4421D21BF0743000A3130 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = clouddatabasemac;
+			productName = clouddatabasemac;
+			productReference = 55C4421F21BF0743000A3130 /* clouddatabasemac.app */;
+			productType = "com.apple.product-type.application";
+		};
+		55C4423021BF0744000A3130 /* clouddatabasemacTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 55C4424821BF0744000A3130 /* Build configuration list for PBXNativeTarget "clouddatabasemacTests" */;
+			buildPhases = (
+				55C4422D21BF0744000A3130 /* Sources */,
+				55C4422E21BF0744000A3130 /* Frameworks */,
+				55C4422F21BF0744000A3130 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				55C4423321BF0744000A3130 /* PBXTargetDependency */,
+			);
+			name = clouddatabasemacTests;
+			productName = clouddatabasemacTests;
+			productReference = 55C4423121BF0744000A3130 /* clouddatabasemacTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		55C4423B21BF0744000A3130 /* clouddatabasemacUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 55C4424B21BF0744000A3130 /* Build configuration list for PBXNativeTarget "clouddatabasemacUITests" */;
+			buildPhases = (
+				55C4423821BF0744000A3130 /* Sources */,
+				55C4423921BF0744000A3130 /* Frameworks */,
+				55C4423A21BF0744000A3130 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				55C4423E21BF0744000A3130 /* PBXTargetDependency */,
+			);
+			name = clouddatabasemacUITests;
+			productName = clouddatabasemacUITests;
+			productReference = 55C4423C21BF0744000A3130 /* clouddatabasemacUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		55C4421721BF0743000A3130 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 1010;
+				LastUpgradeCheck = 1010;
+				ORGANIZATIONNAME = "Marvin Manzi";
+				TargetAttributes = {
+					55C4421E21BF0743000A3130 = {
+						CreatedOnToolsVersion = 10.1;
+						SystemCapabilities = {
+							com.apple.Push = {
+								enabled = 1;
+							};
+							com.apple.iCloud = {
+								enabled = 1;
+							};
+						};
+					};
+					55C4423021BF0744000A3130 = {
+						CreatedOnToolsVersion = 10.1;
+						TestTargetID = 55C4421E21BF0743000A3130;
+					};
+					55C4423B21BF0744000A3130 = {
+						CreatedOnToolsVersion = 10.1;
+						TestTargetID = 55C4421E21BF0743000A3130;
+					};
+				};
+			};
+			buildConfigurationList = 55C4421A21BF0743000A3130 /* Build configuration list for PBXProject "clouddatabasemac" */;
+			compatibilityVersion = "Xcode 9.3";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 55C4421621BF0743000A3130;
+			productRefGroup = 55C4422021BF0743000A3130 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				55C4421E21BF0743000A3130 /* clouddatabasemac */,
+				55C4423021BF0744000A3130 /* clouddatabasemacTests */,
+				55C4423B21BF0744000A3130 /* clouddatabasemacUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		55C4421D21BF0743000A3130 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				55C4422721BF0744000A3130 /* Assets.xcassets in Resources */,
+				55C4422A21BF0744000A3130 /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		55C4422F21BF0744000A3130 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		55C4423A21BF0744000A3130 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		55C4421B21BF0743000A3130 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				55C4422521BF0743000A3130 /* ViewController.swift in Sources */,
+				55C4422321BF0743000A3130 /* AppDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		55C4422D21BF0744000A3130 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				55C4423621BF0744000A3130 /* clouddatabasemacTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		55C4423821BF0744000A3130 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				55C4424121BF0744000A3130 /* clouddatabasemacUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		55C4423321BF0744000A3130 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 55C4421E21BF0743000A3130 /* clouddatabasemac */;
+			targetProxy = 55C4423221BF0744000A3130 /* PBXContainerItemProxy */;
+		};
+		55C4423E21BF0744000A3130 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 55C4421E21BF0743000A3130 /* clouddatabasemac */;
+			targetProxy = 55C4423D21BF0744000A3130 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		55C4422821BF0744000A3130 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				55C4422921BF0744000A3130 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		55C4424321BF0744000A3130 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "Mac Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.14;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		55C4424421BF0744000A3130 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "Mac Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.14;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = macosx;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+			};
+			name = Release;
+		};
+		55C4424621BF0744000A3130 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = clouddatabasemac/clouddatabasemac.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = 9C9R36NYWY;
+				INFOPLIST_FILE = clouddatabasemac/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = commonworld.clouddatabasemac;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.2;
+			};
+			name = Debug;
+		};
+		55C4424721BF0744000A3130 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = clouddatabasemac/clouddatabasemac.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = 9C9R36NYWY;
+				INFOPLIST_FILE = clouddatabasemac/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = commonworld.clouddatabasemac;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.2;
+			};
+			name = Release;
+		};
+		55C4424921BF0744000A3130 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = 9C9R36NYWY;
+				INFOPLIST_FILE = clouddatabasemacTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = commonworld.clouddatabasemacTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.2;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/clouddatabasemac.app/Contents/MacOS/clouddatabasemac";
+			};
+			name = Debug;
+		};
+		55C4424A21BF0744000A3130 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = 9C9R36NYWY;
+				INFOPLIST_FILE = clouddatabasemacTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = commonworld.clouddatabasemacTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.2;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/clouddatabasemac.app/Contents/MacOS/clouddatabasemac";
+			};
+			name = Release;
+		};
+		55C4424C21BF0744000A3130 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = 9C9R36NYWY;
+				INFOPLIST_FILE = clouddatabasemacUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = commonworld.clouddatabasemacUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.2;
+				TEST_TARGET_NAME = clouddatabasemac;
+			};
+			name = Debug;
+		};
+		55C4424D21BF0744000A3130 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = 9C9R36NYWY;
+				INFOPLIST_FILE = clouddatabasemacUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = commonworld.clouddatabasemacUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.2;
+				TEST_TARGET_NAME = clouddatabasemac;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		55C4421A21BF0743000A3130 /* Build configuration list for PBXProject "clouddatabasemac" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				55C4424321BF0744000A3130 /* Debug */,
+				55C4424421BF0744000A3130 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		55C4424521BF0744000A3130 /* Build configuration list for PBXNativeTarget "clouddatabasemac" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				55C4424621BF0744000A3130 /* Debug */,
+				55C4424721BF0744000A3130 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		55C4424821BF0744000A3130 /* Build configuration list for PBXNativeTarget "clouddatabasemacTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				55C4424921BF0744000A3130 /* Debug */,
+				55C4424A21BF0744000A3130 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		55C4424B21BF0744000A3130 /* Build configuration list for PBXNativeTarget "clouddatabasemacUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				55C4424C21BF0744000A3130 /* Debug */,
+				55C4424D21BF0744000A3130 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 55C4421721BF0743000A3130 /* Project object */;
+}
