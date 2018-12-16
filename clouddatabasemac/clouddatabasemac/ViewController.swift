@@ -20,7 +20,7 @@ class ViewController: NSViewController, NSTableViewDataSource, NSTableViewDelega
         // Do any additional setup after loading the view.
         tableView.dataSource = self
         tableView.delegate = self
-        
+        fetch()
     }
 
     override var representedObject: Any? {
@@ -34,7 +34,8 @@ class ViewController: NSViewController, NSTableViewDataSource, NSTableViewDelega
         let predicate = NSPredicate(value: true)
         let query = CKQuery(recordType: "Poeple", predicate: predicate)
         let myContainer = CKContainer(identifier: "iCloud.cloudCommonWorld")
-        myContainer.publicCloudDatabase.perform(query, inZoneWith: nil) { records, error in
+        //myContainer.publicCloudDatabase.perform(query, inZoneWith: nil) { records, error in
+        myContainer.privateCloudDatabase.perform(query, inZoneWith: nil) { records, error in
             print(records?.count)
             
             self.contacts.removeAll()

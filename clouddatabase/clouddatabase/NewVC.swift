@@ -8,6 +8,7 @@
 
 import UIKit
 import CloudKit
+import CoreData
 
 
 class NewVC: UIViewController {
@@ -33,21 +34,21 @@ class NewVC: UIViewController {
     
     func create(){
         
-        let artworkRecordID = CKRecord.ID(recordName: "\(Date())")
+        let artworkRecordID = CKRecord.ID(recordName: UUID().uuidString)
         let artworkRecord = CKRecord(recordType: "Poeple", recordID: artworkRecordID)
         
         artworkRecord["first"] = first.text! as NSString
         artworkRecord["last"] = last.text! as NSString
         
         save(artworkRecord: artworkRecord)
-        
     }
     
 
     func save(artworkRecord: CKRecord){
         //let myContainer = CKContainer.default()
         let myContainer = CKContainer(identifier: "iCloud.cloudCommonWorld")
-        let publicDatabase = myContainer.publicCloudDatabase
+        //let publicDatabase = myContainer.publicCloudDatabase
+        let publicDatabase = myContainer.privateCloudDatabase
         
         publicDatabase.save(artworkRecord) {
             (record, error) in
@@ -61,11 +62,46 @@ class NewVC: UIViewController {
             self.dismiss(animated: true, completion: nil)
         }
     }
+    
+    
     @IBAction func cancel(_ sender: Any) {
         self.dismiss(animated: true, completion: nil)
     }
+    
     @IBAction func new(_ sender: Any) {
-        create()
+        //create()
+        if addPerson(first: first.text!, last: last.text!) {
+            self.dismiss(animated: true, completion: nil)
+        }
     }
+    
+    
+     func addPerson(first: String, last: String) -> Bool {
+        let appDelegate = UIApplication.shared.delegate as? AppDelegate
+        let managedObjectContext = appDelegate?.persistentContainer.viewContext
+        managedObjectContext?.mergePolicy = NSMergePolicy(merge: .mergeByPropertyObjectTrumpMergePolicyType)
+        guard let _context = managedObjectContext else { return false }
+        
+        let object = NSEntityDescription.insertNewObject(forEntityName: "People", into: managedObjectContext!) as! People
+        
+        
+        object.firstname = first
+        object.lastname = last
+        object.id = UUID().uuidString
+        object.synced = false
+        print(object)
+        do {
+            try _context.save()
+            return true
+        } catch {
+            print("not Saved")
+            
+        }
+        
+        return false
+        
+    }
+    
+    
     
 }
