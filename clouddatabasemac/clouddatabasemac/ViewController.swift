@@ -13,7 +13,7 @@ class ViewController: NSViewController, NSTableViewDataSource, NSTableViewDelega
 
     var contacts: [String] = []
     @IBOutlet weak var tableView: NSTableView!
-    
+    var syncTimer = Timer()
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -21,6 +21,7 @@ class ViewController: NSViewController, NSTableViewDataSource, NSTableViewDelega
         tableView.dataSource = self
         tableView.delegate = self
         fetch()
+        syncTimer = Timer.scheduledTimer(timeInterval: 2, target: self, selector: #selector(self.fetch), userInfo: nil, repeats: true)
     }
 
     override var representedObject: Any? {
@@ -30,7 +31,7 @@ class ViewController: NSViewController, NSTableViewDataSource, NSTableViewDelega
     }
     
     
-    func fetch(){
+    @objc func fetch(){
         let predicate = NSPredicate(value: true)
         let query = CKQuery(recordType: "Poeple", predicate: predicate)
         let myContainer = CKContainer(identifier: "iCloud.cloudCommonWorld")
@@ -44,7 +45,7 @@ class ViewController: NSViewController, NSTableViewDataSource, NSTableViewDelega
                 let lastname = record.value(forKey: "last") as! String
                 self.contacts.append(firstname + " " + lastname)
             }
-            print(self.contacts)
+            //print(self.contacts)
             DispatchQueue.main.async {
                 self.tableView.reloadData()
             }

@@ -16,6 +16,9 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     var people : [People] = []
     
+    var syncTimer = Timer()
+    var tableTimer = Timer()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
@@ -24,39 +27,136 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         tableView.dataSource = self
         tableView.delegate = self
         
-       // fetch()
+        
+        if sysLastUpdated() == "" {
+            fetchAll()
+        }else{
+            fetch()
+        }
+        
+        
+        //fetch()
+        scheduledFetchWithTimeInterval()
+        
+        
     }
     
     override func viewDidAppear(_ animated: Bool) {
         //fetch()
-        people.removeAll()
+        
         fetchpeople()
     }
     
+    func scheduledFetchWithTimeInterval(){
+        // Scheduling timer to Call the function "updateCounting" with the interval of 1 seconds
+        syncTimer = Timer.scheduledTimer(timeInterval: 2, target: self, selector: #selector(self.fetch), userInfo: nil, repeats: true)
+        tableTimer = Timer.scheduledTimer(timeInterval: 2, target: self, selector: #selector(self.fetchpeople), userInfo: nil, repeats: true)
+    }
 
     
-    func fetch(){
+    @objc func fetch(){
+      //  print("fetching updates")
         let predicate = NSPredicate(value: true)
         let query = CKQuery(recordType: "Poeple", predicate: predicate)
         let myContainer = CKContainer(identifier: "iCloud.cloudCommonWorld")
-        myContainer.publicCloudDatabase.perform(query, inZoneWith: nil) { records, error in
-            print(records?.count)
-
-            //self.people.removeAll()
+        let lastUpdate = stringToDate(dateStr: sysLastUpdated())
+        //myContainer.publicCloudDatabase.perform(query, inZoneWith: nil) { records, error in
+        myContainer.privateCloudDatabase.perform(query, inZoneWith: nil) { records, error in
             for record in records! {
-                let firstname = record.value(forKey: "first") as! String
-                let lastname = record.value(forKey: "last") as! String
                 let modified = record.value(forKey: "modificationDate") as! Date
-                print("\(firstname) -- \(lastname) -- \(modified) -- \(Date())")
+                let frr = record.value(forKey: "first") as! String
+                if modified > lastUpdate {
+                    let firstname = record.value(forKey: "first") as! String
+                    let lastname = record.value(forKey: "last") as! String
+                    if self.addPerson(first: firstname, last: lastname) {
+                        
+                    }
+                }
+                
             }
-            print(self.people)
-            DispatchQueue.main.async {
-                self.tableView.reloadData()
-            }
-
+            self.lastUpdated(date: self.dateToString(date: NSDate()))
+        }
+        DispatchQueue.main.async {
+            self.fetchpeople()
         }
     }
     
+    func fetchAll(){
+        let predicate = NSPredicate(value: true)
+        let query = CKQuery(recordType: "Poeple", predicate: predicate)
+        let myContainer = CKContainer(identifier: "iCloud.cloudCommonWorld")
+        myContainer.privateCloudDatabase.perform(query, inZoneWith: nil) { records, error in
+            print(records?.count)
+            for record in records! {
+                let firstname = record.value(forKey: "first") as! String
+                let lastname = record.value(forKey: "last") as! String
+                self.addPerson(first: firstname, last: lastname)
+            }
+            
+            
+        }
+        lastUpdated(date: dateToString(date: NSDate()))
+        DispatchQueue.main.async {
+            self.fetchpeople()
+        }
+    }
+    
+    
+    func addPerson(first: String, last: String) -> Bool {
+        let appDelegate = UIApplication.shared.delegate as? AppDelegate
+        let managedObjectContext = appDelegate?.persistentContainer.viewContext
+        managedObjectContext?.mergePolicy = NSMergePolicy(merge: .mergeByPropertyObjectTrumpMergePolicyType)
+        guard let _context = managedObjectContext else { return false }
+        
+        let object = NSEntityDescription.insertNewObject(forEntityName: "People", into: managedObjectContext!) as! People
+        
+        
+        object.firstname = first
+        object.lastname = last
+        object.id = UUID().uuidString
+        object.synced = true
+        do {
+            try _context.save()
+            return true
+        } catch {
+            print("not Saved")
+            
+        }
+        
+        return false
+        
+    }
+    
+    func create(first: String, last: String){
+        
+        let artworkRecordID = CKRecord.ID(recordName: UUID().uuidString)
+        let artworkRecord = CKRecord(recordType: "Poeple", recordID: artworkRecordID)
+        
+        artworkRecord["first"] = first as NSString
+        artworkRecord["last"] = last as NSString
+        
+        save(artworkRecord: artworkRecord)
+    }
+    
+    
+    func save(artworkRecord: CKRecord){
+        //let myContainer = CKContainer.default()
+        let myContainer = CKContainer(identifier: "iCloud.cloudCommonWorld")
+        //let publicDatabase = myContainer.publicCloudDatabase
+        let publicDatabase = myContainer.privateCloudDatabase
+        
+        publicDatabase.save(artworkRecord) {
+            (record, error) in
+            if let error = error {
+                // Insert error handling
+                print(error)
+                return
+            }
+            // Insert successfully saved record code
+           // print("saved!!")
+            self.dismiss(animated: true, completion: nil)
+        }
+    }
     
     
     
@@ -81,8 +181,9 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     }
     
     
-     func fetchpeople()
+    @objc func fetchpeople()
     {
+        people.removeAll()
         let appDelegate = UIApplication.shared.delegate as? AppDelegate
         let managedObjectContext = appDelegate?.persistentContainer.viewContext
         
@@ -177,6 +278,54 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             
             return true
         }
+    }
+    
+    
+    func stringToDate(dateStr: String) -> Date {
+        
+        // Set date format
+        let dateFmt = DateFormatter()
+        dateFmt.timeZone = NSTimeZone.default
+        dateFmt.dateFormat =  "yyyy-MM-dd HH:mm:ss"
+        
+        // Get NSDate for the given string
+        let date = dateFmt.date(from: dateStr)!
+        
+        return date
+    }
+    
+    func dateToString(date: NSDate)-> String{
+        let formatter = DateFormatter()
+        // initially set the format based on your datepicker date
+        formatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+        
+        let myString = formatter.string(from: date as Date)
+        // convert your string to date
+        let yourDate = formatter.date(from: myString)
+        //then again set the date format whhich type of output you need
+        formatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+        // again convert your date to string
+        let myStringafd = formatter.string(from: yourDate!)
+        
+        return myStringafd
+    }
+    
+    func lastUpdated(date: String){
+        let defaults = UserDefaults.standard
+        defaults.set(date, forKey: "lastupdate")
+        defaults.synchronize()
+    }
+    
+    func sysLastUpdated() -> String{
+        let defaults = UserDefaults.standard
+        defaults.synchronize()
+        
+        if defaults.string(forKey: "lastupdate") != nil{
+            return defaults.string(forKey: "lastupdate")!
+        }else{
+            return ""
+        }
+        
     }
     
 }
