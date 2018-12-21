@@ -15,10 +15,17 @@ class NewVC: UIViewController {
 
     @IBOutlet weak var first: UITextField!
     @IBOutlet weak var last: UITextField!
+    
+    var person: People?
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
+        
+        if person != nil {
+            first.text = person?.firstname
+            last.text = person?.lastname
+        }
     }
     
 
@@ -33,8 +40,12 @@ class NewVC: UIViewController {
     */
     
     func create(){
+        var uuid = UUID().uuidString
         
-        let artworkRecordID = CKRecord.ID(recordName: UUID().uuidString)
+        if person != nil {
+            uuid = person!.id!
+        }
+        let artworkRecordID = CKRecord.ID(recordName: uuid)
         let artworkRecord = CKRecord(recordType: "Poeple", recordID: artworkRecordID)
         
         artworkRecord["first"] = first.text! as NSString
@@ -60,7 +71,12 @@ class NewVC: UIViewController {
             // Insert successfully saved record code
             print("saved!!")
             self.lastUpdated(date: self.dateToString(date: NSDate()))
-            self.dismiss(animated: true, completion: nil)
+            if self.person != nil {
+                self.updatePerson(first: self.first.text!, last: self.last.text!)
+            }else{
+                self.addPerson(first: self.first.text!, last: self.last.text!)
+            }
+            
         }
     }
     
@@ -70,18 +86,15 @@ class NewVC: UIViewController {
     }
     
     @IBAction func new(_ sender: Any) {
-        //create()
-        if addPerson(first: first.text!, last: last.text!) {
-            self.dismiss(animated: true, completion: nil)
-        }
+        create()
     }
     
     
-     func addPerson(first: String, last: String) -> Bool {
+     func addPerson(first: String, last: String)  {
         let appDelegate = UIApplication.shared.delegate as? AppDelegate
         let managedObjectContext = appDelegate?.persistentContainer.viewContext
         managedObjectContext?.mergePolicy = NSMergePolicy(merge: .mergeByPropertyObjectTrumpMergePolicyType)
-        guard let _context = managedObjectContext else { return false }
+        guard let _context = managedObjectContext else { return }
         
         let object = NSEntityDescription.insertNewObject(forEntityName: "People", into: managedObjectContext!) as! People
         
@@ -92,16 +105,36 @@ class NewVC: UIViewController {
         object.synced = true
         print(object)
         do {
-            create()
             try _context.save()
             
-            return true
+            self.dismiss(animated: true, completion: nil)
         } catch {
             print("not Saved")
             
         }
         
-        return false
+        
+    }
+    
+     func updatePerson(first: String, last: String) {
+        let appDelegate = UIApplication.shared.delegate as? AppDelegate
+        let managedObjectContext = appDelegate?.persistentContainer.viewContext
+        managedObjectContext?.mergePolicy = NSMergePolicy(merge: .mergeByPropertyObjectTrumpMergePolicyType)
+        guard let _context = managedObjectContext else { return }
+        
+        let object = managedObjectContext?.object(with: person!.objectID) as! People
+        
+        object.firstname = first
+        object.lastname = last
+        
+        do {
+            try _context.save()
+            
+            self.dismiss(animated: true, completion: nil)
+        } catch {
+            print("not Saved")
+            
+        }
         
     }
     

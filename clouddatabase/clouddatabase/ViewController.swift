@@ -38,6 +38,8 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         //fetch()
         scheduledFetchWithTimeInterval()
         
+        print("last updated -- \(sysLastUpdated())")
+        
         
     }
     
@@ -49,8 +51,8 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     func scheduledFetchWithTimeInterval(){
         // Scheduling timer to Call the function "updateCounting" with the interval of 1 seconds
-        syncTimer = Timer.scheduledTimer(timeInterval: 2, target: self, selector: #selector(self.fetch), userInfo: nil, repeats: true)
-        tableTimer = Timer.scheduledTimer(timeInterval: 2, target: self, selector: #selector(self.fetchpeople), userInfo: nil, repeats: true)
+        syncTimer = Timer.scheduledTimer(timeInterval: 3, target: self, selector: #selector(self.fetch), userInfo: nil, repeats: true)
+       // tableTimer = Timer.scheduledTimer(timeInterval: 2, target: self, selector: #selector(self.fetchpeople), userInfo: nil, repeats: true)
     }
 
     
@@ -60,11 +62,11 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         let query = CKQuery(recordType: "Poeple", predicate: predicate)
         let myContainer = CKContainer(identifier: "iCloud.cloudCommonWorld")
         let lastUpdate = stringToDate(dateStr: sysLastUpdated())
-        //myContainer.publicCloudDatabase.perform(query, inZoneWith: nil) { records, error in
         myContainer.privateCloudDatabase.perform(query, inZoneWith: nil) { records, error in
             for record in records! {
+                
                 let modified = record.value(forKey: "modificationDate") as! Date
-                let frr = record.value(forKey: "first") as! String
+                print("\(record.value(forKey: "first")) -- \(modified) -- \(modified > lastUpdate)")
                 if modified > lastUpdate {
                     let firstname = record.value(forKey: "first") as! String
                     let lastname = record.value(forKey: "last") as! String
@@ -90,10 +92,10 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             for record in records! {
                 let firstname = record.value(forKey: "first") as! String
                 let lastname = record.value(forKey: "last") as! String
-                self.addPerson(first: firstname, last: lastname)
+                if self.addPerson(first: firstname, last: lastname) {
+                    
+                }
             }
-            
-            
         }
         lastUpdated(date: dateToString(date: NSDate()))
         DispatchQueue.main.async {
@@ -181,8 +183,19 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     }
     
     
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        let view = self.storyboard?.instantiateViewController(withIdentifier: "NewVC") as! NewVC
+        view.person = people[indexPath.row]
+        present(view, animated: true, completion: nil)
+    }
+    
+    
+    
+    
     @objc func fetchpeople()
     {
+        //deleteAllData(entity: "People")
         people.removeAll()
         let appDelegate = UIApplication.shared.delegate as? AppDelegate
         let managedObjectContext = appDelegate?.persistentContainer.viewContext
@@ -326,6 +339,26 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             return ""
         }
         
+    }
+    
+    func deleteAllData(entity: String)
+    {
+        let appDelegate = UIApplication.shared.delegate as? AppDelegate
+        let managedObjectContext = appDelegate?.persistentContainer.viewContext
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: entity)
+        fetchRequest.returnsObjectsAsFaults = false
+        
+        do
+        {
+            let results = try managedObjectContext?.fetch(fetchRequest)
+            for managedObject in results!
+            {
+                let managedObjectData:NSManagedObject = managedObject as! NSManagedObject
+                managedObjectContext!.delete(managedObjectData)
+            }
+        } catch let error as NSError {
+            print("Detele all data in \(entity) error : \(error) \(error.userInfo)")
+        }
     }
     
 }

@@ -49,9 +49,7 @@ class ViewController: NSViewController, NSTableViewDataSource, NSTableViewDelega
             DispatchQueue.main.async {
                 self.tableView.reloadData()
             }
-            
         }
-        
     }
     
     @IBAction func refresh(_ sender: Any) {
@@ -63,10 +61,10 @@ class ViewController: NSViewController, NSTableViewDataSource, NSTableViewDelega
     }
     
     func tableView(_ tableView: NSTableView, objectValueFor tableColumn: NSTableColumn?, row: Int) -> Any? {
-        
-        
         return contacts[row]
     }
+    
+
 
 }
 
