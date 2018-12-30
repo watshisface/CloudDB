@@ -17,15 +17,21 @@ class NewVC: UIViewController {
     @IBOutlet weak var last: UITextField!
     
     var person: People?
+    var firstname: String?
+    var lastname: String?
+    var recordName: String?
+    var cloudPerson : CloudKitPerson = CloudKitPerson()
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
         
-        if person != nil {
-            first.text = person?.firstname
-            last.text = person?.lastname
+        if recordName != nil {
+            first.text = firstname
+            last.text =  lastname
         }
+        
+        
     }
     
 
@@ -40,18 +46,42 @@ class NewVC: UIViewController {
     */
     
     func create(){
-        var uuid = UUID().uuidString
         
-        if person != nil {
-            uuid = person!.id!
-        }
-        let artworkRecordID = CKRecord.ID(recordName: uuid)
+        let artworkRecordID = CKRecord.ID(recordName: UUID().uuidString)
         let artworkRecord = CKRecord(recordType: "Poeple", recordID: artworkRecordID)
         
         artworkRecord["first"] = first.text! as NSString
         artworkRecord["last"] = last.text! as NSString
         
         save(artworkRecord: artworkRecord)
+        
+        
+    }
+    
+    
+    
+
+    func update(){
+        //let myContainer = CKContainer.default()
+        let myContainer = CKContainer(identifier: "iCloud.cloudCommonWorld")
+        //let publicDatabase = myContainer.publicCloudDatabase
+        let database = myContainer.privateCloudDatabase
+        
+        let recordID = CKRecord.ID(recordName: recordName!)
+        
+        database.fetch(withRecordID: recordID) { record, error in
+            
+            if let record = record, error == nil {
+                
+                //update your record here
+                record["first"] = self.first.text! as NSString
+                record["last"] = self.last.text! as NSString
+                database.save(record) { _, error in
+                    //completion?(error)
+                }
+            }
+            self.dismiss(animated: true, completion: nil)
+        }
     }
     
 
@@ -70,12 +100,14 @@ class NewVC: UIViewController {
             }
             // Insert successfully saved record code
             print("saved!!")
-            self.lastUpdated(date: self.dateToString(date: NSDate()))
-            if self.person != nil {
-                self.updatePerson(first: self.first.text!, last: self.last.text!)
-            }else{
-                self.addPerson(first: self.first.text!, last: self.last.text!)
-            }
+//            self.lastUpdated(date: self.dateToString(date: NSDate()))
+//            if self.person != nil {
+//                self.updatePerson(first: self.first.text!, last: self.last.text!)
+//            }else{
+//                self.addPerson(first: self.first.text!, last: self.last.text!)
+//            }
+//
+            self.dismiss(animated: true, completion: nil)
             
         }
     }
@@ -86,7 +118,19 @@ class NewVC: UIViewController {
     }
     
     @IBAction func new(_ sender: Any) {
-        create()
+        if recordName != nil {
+            update()
+        }else{
+            create()
+        }
+        
+//        cloudPerson.save(first: first.text!, last: last.text!, modified: Date()) { (error) in
+//            if error != nil {
+//                print(error!)
+//            }
+//        }
+        
+        
     }
     
     

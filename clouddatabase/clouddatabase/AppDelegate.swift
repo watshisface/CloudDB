@@ -29,28 +29,50 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     }
     
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
-        let subscription = CKQuerySubscription(recordType: "GlobalNotification", predicate: NSPredicate(format: "TRUEPREDICATE"), options: .firesOnRecordCreation)
-        
+        let subscription = CKQuerySubscription(recordType: "Poeple", predicate: NSPredicate(format: "TRUEPREDICATE"), options: [.firesOnRecordCreation, .firesOnRecordDeletion, .firesOnRecordUpdate])
+
         let info = CKSubscription.NotificationInfo()
         info.alertBody = "A new notification has been posted!"
         info.shouldBadge = true
         info.soundName = "default"
-        
+
         subscription.notificationInfo = info
-        
-        CKContainer.default().publicCloudDatabase.save(subscription, completionHandler: { subscription, error in
+
+        let myContainer = CKContainer(identifier: "iCloud.cloudCommonWorld")
+        let privateDatabase = myContainer.privateCloudDatabase
+        privateDatabase.save(subscription, completionHandler: { subscription, error in
             if error == nil {
                 // Subscription saved successfully
             } else {
                 // An error occurred
+                print("sub wasnt made --- \(error)")
             }
         })
     }
-    
-    func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
-        completionHandler([.alert, .sound])
-    }
+//
+//    func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+//
+//        print("Recieved notification!!1")
+//        completionHandler([.alert, .sound])
+//    }
 
+    
+    func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
+        let dict = userInfo as! [String: NSObject]
+//        let notification = CKNotification(fromRemoteNotificationDictionary: dict)
+//        if notification.subscriptionID == db.subscriptionID {
+//            //db.handleNotification()
+//            completionHandler(.newData)
+//        }
+//        else {
+//            completionHandler(.noData)
+//        }
+        
+        let nc = NotificationCenter.default
+        nc.post(name: Notification.Name("peopleupdated"), object: nil, userInfo: nil)
+    }
+    
+    
     func applicationWillResignActive(_ application: UIApplication) {
         // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
         // Use this method to pause ongoing tasks, disable timers, and invalidate graphics rendering callbacks. Games should use this method to pause the game.
