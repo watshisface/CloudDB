@@ -14,6 +14,14 @@ class ViewController: NSViewController, NSTableViewDataSource, NSTableViewDelega
     var contacts: [String] = []
     @IBOutlet weak var tableView: NSTableView!
     var syncTimer = Timer()
+    
+    
+    @IBOutlet weak var firstName: NSTextField!
+    
+    @IBOutlet weak var lastName: NSTextField!
+    
+    @IBOutlet weak var savingLbl: NSTextField!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -21,7 +29,9 @@ class ViewController: NSViewController, NSTableViewDataSource, NSTableViewDelega
         tableView.dataSource = self
         tableView.delegate = self
         fetch()
-        syncTimer = Timer.scheduledTimer(timeInterval: 2, target: self, selector: #selector(self.fetch), userInfo: nil, repeats: true)
+        startTimer()
+        
+        savingLbl.isHidden = true
     }
 
     override var representedObject: Any? {
@@ -30,8 +40,11 @@ class ViewController: NSViewController, NSTableViewDataSource, NSTableViewDelega
         }
     }
     
+  
+    
     
     @objc func fetch(){
+        savingLbl.isHidden = false
         let predicate = NSPredicate(value: true)
         let query = CKQuery(recordType: "Poeple", predicate: predicate)
         let myContainer = CKContainer(identifier: "iCloud.cloudCommonWorld")
@@ -48,6 +61,7 @@ class ViewController: NSViewController, NSTableViewDataSource, NSTableViewDelega
             //print(self.contacts)
             DispatchQueue.main.async {
                 self.tableView.reloadData()
+                self.savingLbl.isHidden = true
             }
         }
     }
@@ -64,7 +78,69 @@ class ViewController: NSViewController, NSTableViewDataSource, NSTableViewDelega
         return contacts[row]
     }
     
+    
+    func create(){
+        savingLbl.isHidden = false
+        self.contacts.append(self.firstName.stringValue + " " + self.lastName.stringValue)
+        tableView.reloadData()
+        resetTimer()
+        
+        
+        let artworkRecordID = CKRecord.ID(recordName: UUID().uuidString)
+        let artworkRecord = CKRecord(recordType: "Poeple", recordID: artworkRecordID)
+        
+        artworkRecord["first"] = firstName.stringValue as NSString
+        artworkRecord["last"] = lastName.stringValue as NSString
+        
+        save(artworkRecord: artworkRecord)
+        
+        
+    }
+    
+    func save(artworkRecord: CKRecord){
+        //let myContainer = CKContainer.default()
+        let myContainer = CKContainer(identifier: "iCloud.cloudCommonWorld")
+        //let publicDatabase = myContainer.publicCloudDatabase
+        let publicDatabase = myContainer.privateCloudDatabase
+        
+        publicDatabase.save(artworkRecord) {
+            (record, error) in
+            if let error = error {
+                // Insert error handling
+                print(error)
+                return
+            }
+            // Insert successfully saved record code
+            print("saved!!")
+            self.firstName.stringValue = ""
+            self.lastName.stringValue = ""
+            
+            DispatchQueue.main.async {
+                self.tableView.reloadData()
+                self.savingLbl.isHidden = true
+                self.savingLbl.isHidden = true
+                self.resetTimer()
+            }
+        }
+        
+        
+    }
 
-
+    @IBAction func saveBtn_click(_ sender: Any) {
+        
+        create()
+    }
+    
+    func startTimer(){
+        syncTimer = Timer.scheduledTimer(timeInterval: 10, target: self, selector: #selector(self.fetch), userInfo: nil, repeats: true)
+    }
+    
+    func resetTimer(){
+        syncTimer.invalidate()
+        startTimer()
+    }
+    
+    
+    
 }
 
