@@ -11,8 +11,12 @@ import CloudKit
 import CoreData
 
 class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
-
+    
+    
+    
     @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var syncBtn: UIButton!
+    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     
     var people : [People] = []
     var peopleFromCloud : [(String, String, String)] = []
@@ -20,162 +24,82 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     var syncTimer = Timer()
     var tableTimer = Timer()
     
+    let sync : SYNC = SYNC()
+    
+    var delegate: CloudKitUpdateDelegate?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         tableView.dataSource = self
         tableView.delegate = self
         
-        //Timer.scheduledTimer(timeInterval: 3, target: self, selector: #selector(self.scheduledFetchWithTimeInterval), userInfo: nil, repeats: true)
-        
         NotificationCenter.default.addObserver(self,
-                                               selector: #selector(self.fetchAll),
+                                               selector: #selector(self.refreshsync),
                                                name: NSNotification.Name(rawValue: "peopleupdated"),
                                                object: nil)
         
         NotificationCenter.default.addObserver(self,
-                                               selector: #selector(self.fetchAll),
-                                               name: NSNotification.Name(rawValue: "newperson"),
+                                               selector: #selector(self.reloadTable),
+                                               name: NSNotification.Name(rawValue: "reloadcore"),
                                                object: nil)
         
-
         tableView.tableFooterView = UIView()
         
-       // scheduledFetchWithTimeInterval()
+        fetchpeople()
         
+        sync.handleNotification()
+        
+        showingProcessing(title: "Syncing...")
+        
+        let connected : Reachability = Reachability()
+        if connected.isConnectedToNetwork() {
+            sync.pushToCloud()
+        }
     }
+    
+
     
     override func viewDidAppear(_ animated: Bool) {
-
-        fetchAll()
+        
+        fetchpeople()
     }
     
-    @objc func contactDeleted(notification: NSNotification){
-        
-        if let (a, b, c) = notification.userInfo?["person"] as? (String, String, String) {
-            peopleFromCloud.append((a, b, c))
-            
-            //self.sortContacts()
-            tableView.reloadData()
+    @objc func reloadTable(){
+        self.fetchpeople()
+    }
+    
+    @objc func refreshsync(){
+        DispatchQueue.main.async {
+            self.showingProcessing(title: "Syncing")
         }
-        
-    }
-    
-    @objc func scheduledFetchWithTimeInterval(){
-        // Scheduling timer to Call the function "updateCounting" with the interval of 1 seconds
-        syncTimer = Timer.scheduledTimer(timeInterval: 3, target: self, selector: #selector(self.fetchAll), userInfo: nil, repeats: true)
-       // tableTimer = Timer.scheduledTimer(timeInterval: 2, target: self, selector: #selector(self.fetchpeople), userInfo: nil, repeats: true)
-        //tableView.reloadData()
-    }
-
-    
-//    @objc func fetch(){
-//      //  print("fetching updates")
-//        let predicate = NSPredicate(value: true)
-//        let query = CKQuery(recordType: "Poeple", predicate: predicate)
-//        let myContainer = CKContainer(identifier: "iCloud.cloudCommonWorld")
-//        let lastUpdate = stringToDate(dateStr: sysLastUpdated())
-//        myContainer.privateCloudDatabase.perform(query, inZoneWith: nil) { records, error in
-//            for record in records! {
-//
-//                let modified = record.value(forKey: "modificationDate") as! Date
-//                print("\(record.value(forKey: "first")) -- \(modified) -- \(modified > lastUpdate)")
-//                if modified > lastUpdate {
-//                    let firstname = record.value(forKey: "first") as! String
-//                    let lastname = record.value(forKey: "last") as! String
-//                    if self.addPerson(first: firstname, last: lastname) {
-//
-//                    }
-//                }
-//
-//            }
-//            self.lastUpdated(date: self.dateToString(date: NSDate()))
-//        }
-//        DispatchQueue.main.async {
-//            self.fetchpeople()
-//        }
-//    }
-    
-//    func fetchAll(){
-//        let predicate = NSPredicate(value: true)
-//        let query = CKQuery(recordType: "Poeple", predicate: predicate)
-//        let myContainer = CKContainer(identifier: "iCloud.cloudCommonWorld")
-//        myContainer.privateCloudDatabase.perform(query, inZoneWith: nil) { records, error in
-//            print(records?.count)
-//            for record in records! {
-//                let firstname = record.value(forKey: "first") as! String
-//                let lastname = record.value(forKey: "last") as! String
-//                if self.addPerson(first: firstname, last: lastname) {
-//
-//                }
-//            }
-//        }
-//        lastUpdated(date: dateToString(date: NSDate()))
-//        DispatchQueue.main.async {
-//            self.fetchpeople()
-//        }
-//    }
-    
-    @objc func fetchAll(){
-       // print("Fetching from cloud!!")
-        peopleFromCloud.removeAll()
-        let predicate = NSPredicate(value: true)
-        let query = CKQuery(recordType: "Poeple", predicate: predicate)
-        let myContainer = CKContainer(identifier: "iCloud.cloudCommonWorld")
-        myContainer.privateCloudDatabase.perform(query, inZoneWith: nil) { records, error in
-          //  print(records?.count)
-            for record in records! {
-                let firstname = record.value(forKey: "first") as! String
-                let lastname = record.value(forKey: "last") as! String
-                self.peopleFromCloud.append((firstname, lastname, record.recordID.recordName))
-            }
-            DispatchQueue.main.async {
-                self.tableView.reloadData()
-            }
-        }
-     
-    }
-    
-    
-    func addPerson(first: String, last: String) -> Bool {
-        let appDelegate = UIApplication.shared.delegate as? AppDelegate
-        let managedObjectContext = appDelegate?.persistentContainer.viewContext
-        managedObjectContext?.mergePolicy = NSMergePolicy(merge: .mergeByPropertyObjectTrumpMergePolicyType)
-        guard let _context = managedObjectContext else { return false }
-        
-        let object = NSEntityDescription.insertNewObject(forEntityName: "People", into: managedObjectContext!) as! People
-        
-        
-        object.firstname = first
-        object.lastname = last
-        object.id = UUID().uuidString
-        object.synced = true
-        do {
-            try _context.save()
-            return true
-        } catch {
-            print("not Saved")
-            
-        }
-        
-        return false
-        
     }
     
     
     
-     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func showingProcessing(title: String) {
+        self.syncBtn.isHidden = false
+        self.activityIndicator.isHidden = false
+        self.syncBtn.setTitle(title, for: UIControl.State.normal)
+    }
+    
+    func hideProcessing(){
+        self.syncBtn.isHidden = true
+        self.activityIndicator.isHidden = true
+    }
+    
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rowsco
-        return peopleFromCloud.count
+        return people.count
     }
     
     
-     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
-
-        let (a, b, _) = peopleFromCloud[indexPath.row]
-        cell.textLabel?.text = a + " " + b
         
+        let person = people[indexPath.row]
+        cell.textLabel?.text = person.firstname! + " " + person.lastname! + "-- \(person.synced)"
         return cell
     }
     
@@ -183,11 +107,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         let view = self.storyboard?.instantiateViewController(withIdentifier: "NewVC") as! NewVC
-        //view.person = people[indexPath.row]
-        let (a, b, c) = peopleFromCloud[indexPath.row]
-        view.firstname = a
-        view.lastname = b
-        view.recordName = c
+        view.person = people[indexPath.row]
         present(view, animated: true, completion: nil)
     }
     
@@ -204,13 +124,11 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
         
-        let (a, b, c) = peopleFromCloud[indexPath.row]
+        //let (a, b, c) = peopleFromCloud[indexPath.row]
+        let person = people[indexPath.row]
         
         let delete = UITableViewRowAction(style: UITableViewRowAction.Style.normal, title: "Delete") { (action: UITableViewRowAction, indexPath: IndexPath) in
-            
-           self.deletingCKRecord(recordName: c)
-            self.peopleFromCloud.remove(at: indexPath.row)
-            self.tableView.deleteRows(at: [indexPath], with: .automatic)
+            self.sync.deleteFromCloud(recordName: person.id!)
         }
         
         delete.backgroundColor = UIColor.red
@@ -223,7 +141,6 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     @objc func fetchpeople()
     {
-        //deleteAllData(entity: "People")
         people.removeAll()
         let appDelegate = UIApplication.shared.delegate as? AppDelegate
         let managedObjectContext = appDelegate?.persistentContainer.viewContext
@@ -239,103 +156,25 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 for contact in contacts {
                     people.append(contact)
                 }
-                tableView.reloadData()
                 
+                DispatchQueue.main.async {
+                    self.tableView.reloadData()
+                    self.hideProcessing()
+                }
             }
         } catch {
             // handle error
         }
+        
+        
+        
     }
-
+    
     @IBAction func syncBtn(_ sender: Any) {
         
-//        for person in people {
-//            if updatePerson(person: person) {
-//               // print("updated : \(person.firstname)")
-//            }
-//        }
         
     }
     
-    
-    func sync(person: People) -> Bool{
-        
-        let artworkRecordID = CKRecord.ID(recordName: person.id!)
-        let artworkRecord = CKRecord(recordType: "Poeple", recordID: artworkRecordID)
-        
-        artworkRecord["first"] = person.firstname! as NSString
-        artworkRecord["last"] = person.lastname! as NSString
-        
-       
-        //let myContainer = CKContainer.default()
-        let myContainer = CKContainer(identifier: "iCloud.cloudCommonWorld")
-        //let publicDatabase = myContainer.publicCloudDatabase
-        let publicDatabase = myContainer.privateCloudDatabase
-        
-        publicDatabase.save(artworkRecord) {
-            (record, error) in
-            if let error = error {
-                // Insert error handling
-                print(error)
-                return
-            }
-            // Insert successfully saved record code
-            print("saved!!")
-           
-        }
-        
-        return true
-    }
-    
-    
-    
-    
-    func stringToDate(dateStr: String) -> Date {
-        
-        // Set date format
-        let dateFmt = DateFormatter()
-        dateFmt.timeZone = NSTimeZone.default
-        dateFmt.dateFormat =  "yyyy-MM-dd HH:mm:ss"
-        
-        // Get NSDate for the given string
-        let date = dateFmt.date(from: dateStr)!
-        
-        return date
-    }
-    
-    func dateToString(date: NSDate)-> String{
-        let formatter = DateFormatter()
-        // initially set the format based on your datepicker date
-        formatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
-        
-        let myString = formatter.string(from: date as Date)
-        // convert your string to date
-        let yourDate = formatter.date(from: myString)
-        //then again set the date format whhich type of output you need
-        formatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
-        // again convert your date to string
-        let myStringafd = formatter.string(from: yourDate!)
-        
-        return myStringafd
-    }
-    
-    func lastUpdated(date: String){
-        let defaults = UserDefaults.standard
-        defaults.set(date, forKey: "lastupdate")
-        defaults.synchronize()
-    }
-    
-    func sysLastUpdated() -> String{
-        let defaults = UserDefaults.standard
-        defaults.synchronize()
-        
-        if defaults.string(forKey: "lastupdate") != nil{
-            return defaults.string(forKey: "lastupdate")!
-        }else{
-            return ""
-        }
-        
-    }
     
     func deleteAllData(entity: String)
     {
@@ -343,7 +182,6 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         let managedObjectContext = appDelegate?.persistentContainer.viewContext
         let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: entity)
         fetchRequest.returnsObjectsAsFaults = false
-        
         do
         {
             let results = try managedObjectContext?.fetch(fetchRequest)
@@ -356,29 +194,6 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             print("Detele all data in \(entity) error : \(error) \(error.userInfo)")
         }
     }
-    
-    func deletingCKRecord(recordName: String){
-        
-        let recordID = CKRecord.ID(recordName: recordName)
-        
-        
-        let operation = CKModifyRecordsOperation(recordsToSave: nil, recordIDsToDelete: [recordID])
-        operation.savePolicy = .allKeys
-        operation.modifyRecordsCompletionBlock = { added, deleted, error in
-            if error != nil {
-                print(error) // print error if any
-            } else {
-                // no errors, all set!
-            }
-        }
-        
-        let myContainer = CKContainer(identifier: "iCloud.cloudCommonWorld")
-        //let publicDatabase = myContainer.publicCloudDatabase
-        let database = myContainer.privateCloudDatabase
-        database.add(operation)
-    }
-    
-    
     
     
     

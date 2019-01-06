@@ -14,6 +14,11 @@
 		55C4423621BF0744000A3130 /* clouddatabasemacTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55C4423521BF0744000A3130 /* clouddatabasemacTests.swift */; };
 		55C4424121BF0744000A3130 /* clouddatabasemacUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55C4424021BF0744000A3130 /* clouddatabasemacUITests.swift */; };
 		55C4425021BF075E000A3130 /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 55C4424F21BF075E000A3130 /* CloudKit.framework */; };
+		55F26E8021E210FC0051EF76 /* SYNC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55F26E7E21E210FC0051EF76 /* SYNC.swift */; };
+		55F26E8121E210FC0051EF76 /* SYNCPerson.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55F26E7F21E210FC0051EF76 /* SYNCPerson.swift */; };
+		55F26E8421E211B10051EF76 /* database.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 55F26E8221E211B10051EF76 /* database.xcdatamodeld */; };
+		55F26EC221E215150051EF76 /* People+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55F26EC021E215150051EF76 /* People+CoreDataClass.swift */; };
+		55F26EC321E215150051EF76 /* People+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55F26EC121E215150051EF76 /* People+CoreDataProperties.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -48,6 +53,11 @@
 		55C4424021BF0744000A3130 /* clouddatabasemacUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = clouddatabasemacUITests.swift; sourceTree = "<group>"; };
 		55C4424221BF0744000A3130 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		55C4424F21BF075E000A3130 /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
+		55F26E7E21E210FC0051EF76 /* SYNC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SYNC.swift; sourceTree = "<group>"; };
+		55F26E7F21E210FC0051EF76 /* SYNCPerson.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SYNCPerson.swift; sourceTree = "<group>"; };
+		55F26E8321E211B10051EF76 /* database.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = database.xcdatamodel; sourceTree = "<group>"; };
+		55F26EC021E215150051EF76 /* People+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "People+CoreDataClass.swift"; sourceTree = "<group>"; };
+		55F26EC121E215150051EF76 /* People+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "People+CoreDataProperties.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -102,10 +112,15 @@
 			children = (
 				55C4422221BF0743000A3130 /* AppDelegate.swift */,
 				55C4422421BF0743000A3130 /* ViewController.swift */,
+				55F26E7E21E210FC0051EF76 /* SYNC.swift */,
+				55F26E7F21E210FC0051EF76 /* SYNCPerson.swift */,
+				55F26EC021E215150051EF76 /* People+CoreDataClass.swift */,
+				55F26EC121E215150051EF76 /* People+CoreDataProperties.swift */,
 				55C4422621BF0744000A3130 /* Assets.xcassets */,
 				55C4422821BF0744000A3130 /* Main.storyboard */,
 				55C4422B21BF0744000A3130 /* Info.plist */,
 				55C4422C21BF0744000A3130 /* clouddatabasemac.entitlements */,
+				55F26E8221E211B10051EF76 /* database.xcdatamodeld */,
 			);
 			path = clouddatabasemac;
 			sourceTree = "<group>";
@@ -274,8 +289,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				55F26EC221E215150051EF76 /* People+CoreDataClass.swift in Sources */,
+				55F26EC321E215150051EF76 /* People+CoreDataProperties.swift in Sources */,
 				55C4422521BF0743000A3130 /* ViewController.swift in Sources */,
 				55C4422321BF0743000A3130 /* AppDelegate.swift in Sources */,
+				55F26E8021E210FC0051EF76 /* SYNC.swift in Sources */,
+				55F26E8421E211B10051EF76 /* database.xcdatamodeld in Sources */,
+				55F26E8121E210FC0051EF76 /* SYNCPerson.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -597,6 +617,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		55F26E8221E211B10051EF76 /* database.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				55F26E8321E211B10051EF76 /* database.xcdatamodel */,
+			);
+			currentVersion = 55F26E8321E211B10051EF76 /* database.xcdatamodel */;
+			path = database.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 55C4421721BF0743000A3130 /* Project object */;
 }

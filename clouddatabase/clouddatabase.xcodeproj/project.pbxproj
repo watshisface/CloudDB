@@ -9,8 +9,8 @@
 /* Begin PBXBuildFile section */
 		5538735D21C682AA002D8530 /* People+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5538735B21C682AA002D8530 /* People+CoreDataClass.swift */; };
 		5538735E21C682AA002D8530 /* People+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5538735C21C682AA002D8530 /* People+CoreDataProperties.swift */; };
-		5549935821D6131400065537 /* CloudKitPersonDatabase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5549935721D6131400065537 /* CloudKitPersonDatabase.swift */; };
-		5549935A21D62D0200065537 /* CloudKitPerson.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5549935921D62D0200065537 /* CloudKitPerson.swift */; };
+		554D0E1721DF64B500E725D2 /* SYNCPerson.swift in Sources */ = {isa = PBXBuildFile; fileRef = 554D0E1621DF64B500E725D2 /* SYNCPerson.swift */; };
+		5591705D21DE7AE80002A861 /* SYNC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5591705C21DE7AE80002A861 /* SYNC.swift */; };
 		55C441E221BEEC6F000A3130 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55C441E121BEEC6F000A3130 /* AppDelegate.swift */; };
 		55C441E421BEEC6F000A3130 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55C441E321BEEC6F000A3130 /* ViewController.swift */; };
 		55C441E721BEEC6F000A3130 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 55C441E521BEEC6F000A3130 /* Main.storyboard */; };
@@ -43,8 +43,8 @@
 /* Begin PBXFileReference section */
 		5538735B21C682AA002D8530 /* People+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "People+CoreDataClass.swift"; sourceTree = "<group>"; };
 		5538735C21C682AA002D8530 /* People+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "People+CoreDataProperties.swift"; sourceTree = "<group>"; };
-		5549935721D6131400065537 /* CloudKitPersonDatabase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudKitPersonDatabase.swift; sourceTree = "<group>"; };
-		5549935921D62D0200065537 /* CloudKitPerson.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudKitPerson.swift; sourceTree = "<group>"; };
+		554D0E1621DF64B500E725D2 /* SYNCPerson.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SYNCPerson.swift; sourceTree = "<group>"; };
+		5591705C21DE7AE80002A861 /* SYNC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SYNC.swift; sourceTree = "<group>"; };
 		55C441DE21BEEC6F000A3130 /* clouddatabase.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = clouddatabase.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		55C441E121BEEC6F000A3130 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		55C441E321BEEC6F000A3130 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -125,8 +125,8 @@
 				55C441F021BEEC71000A3130 /* Info.plist */,
 				55C441E821BEEC6F000A3130 /* clouddatabase.xcdatamodeld */,
 				55C4425121C03205000A3130 /* NewVC.swift */,
-				5549935721D6131400065537 /* CloudKitPersonDatabase.swift */,
-				5549935921D62D0200065537 /* CloudKitPerson.swift */,
+				5591705C21DE7AE80002A861 /* SYNC.swift */,
+				554D0E1621DF64B500E725D2 /* SYNCPerson.swift */,
 			);
 			path = clouddatabase;
 			sourceTree = "<group>";
@@ -300,13 +300,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				55C441EA21BEEC6F000A3130 /* clouddatabase.xcdatamodeld in Sources */,
+				554D0E1721DF64B500E725D2 /* SYNCPerson.swift in Sources */,
 				55C4425221C03205000A3130 /* NewVC.swift in Sources */,
 				5538735D21C682AA002D8530 /* People+CoreDataClass.swift in Sources */,
 				55C441E421BEEC6F000A3130 /* ViewController.swift in Sources */,
 				5538735E21C682AA002D8530 /* People+CoreDataProperties.swift in Sources */,
-				5549935A21D62D0200065537 /* CloudKitPerson.swift in Sources */,
+				5591705D21DE7AE80002A861 /* SYNC.swift in Sources */,
 				55C441E221BEEC6F000A3130 /* AppDelegate.swift in Sources */,
-				5549935821D6131400065537 /* CloudKitPersonDatabase.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

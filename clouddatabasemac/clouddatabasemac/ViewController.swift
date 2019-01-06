@@ -48,8 +48,10 @@ class ViewController: NSViewController, NSTableViewDataSource, NSTableViewDelega
         let predicate = NSPredicate(value: true)
         let query = CKQuery(recordType: "Poeple", predicate: predicate)
         let myContainer = CKContainer(identifier: "iCloud.cloudCommonWorld")
+        let zone = CKRecordZone(zoneName: "prototype")
+        let zoneID = zone.zoneID
         //myContainer.publicCloudDatabase.perform(query, inZoneWith: nil) { records, error in
-        myContainer.privateCloudDatabase.perform(query, inZoneWith: nil) { records, error in
+        myContainer.privateCloudDatabase.perform(query, inZoneWith: zoneID) { records, error in
             print(records?.count)
             
             self.contacts.removeAll()
@@ -86,13 +88,16 @@ class ViewController: NSViewController, NSTableViewDataSource, NSTableViewDelega
         resetTimer()
         
         
-        let artworkRecordID = CKRecord.ID(recordName: UUID().uuidString)
-        let artworkRecord = CKRecord(recordType: "Poeple", recordID: artworkRecordID)
+        let zone = CKRecordZone(zoneName: "prototype")
+        let zoneID = zone.zoneID
+        let recordID = CKRecord.ID(recordName: UUID().uuidString, zoneID: zoneID)
+        //let artworkRecordID = CKRecord.ID(recordName: UUID().uuidString)
+        let record = CKRecord(recordType: "Poeple", recordID: recordID)
         
-        artworkRecord["first"] = firstName.stringValue as NSString
-        artworkRecord["last"] = lastName.stringValue as NSString
+        record["first"] = firstName.stringValue as NSString
+        record["last"] = lastName.stringValue as NSString
         
-        save(artworkRecord: artworkRecord)
+        save(artworkRecord: record)
         
         
     }

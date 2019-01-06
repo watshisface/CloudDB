@@ -58,32 +58,38 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bub-uj-PFB">
-                                <rect key="frame" x="16" y="594" width="336" height="30"/>
-                                <state key="normal" title="Sync"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bub-uj-PFB">
+                                <rect key="frame" x="175" y="594" width="177" height="30"/>
+                                <state key="normal" title="Syncing..."/>
                                 <connections>
                                     <action selector="syncBtn:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Xom-el-9dV"/>
                                 </connections>
                             </button>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" animating="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="vc3-Cc-11d">
+                                <rect key="frame" x="137" y="599" width="20" height="20"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </activityIndicatorView>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstItem="bub-uj-PFB" firstAttribute="leading" secondItem="zeB-T9-1uX" secondAttribute="leading" id="321-od-phz"/>
+                            <constraint firstItem="bub-uj-PFB" firstAttribute="leading" secondItem="zeB-T9-1uX" secondAttribute="leading" constant="159" id="321-od-phz"/>
                             <constraint firstItem="g0e-pl-eQT" firstAttribute="leading" secondItem="tMS-aA-LAh" secondAttribute="leading" id="Al4-ce-9ix"/>
                             <constraint firstItem="tMS-aA-LAh" firstAttribute="centerX" secondItem="g0e-pl-eQT" secondAttribute="centerX" id="Fgq-NM-dcG"/>
                             <constraint firstItem="g0e-pl-eQT" firstAttribute="top" secondItem="tMS-aA-LAh" secondAttribute="bottom" constant="34" id="PMx-HB-cwi"/>
                             <constraint firstItem="zeB-T9-1uX" firstAttribute="top" secondItem="bub-uj-PFB" secondAttribute="bottom" constant="16" id="PqN-nT-vkn"/>
                             <constraint firstItem="bub-uj-PFB" firstAttribute="top" secondItem="g0e-pl-eQT" secondAttribute="bottom" constant="14" id="RVk-kF-Q76"/>
                             <constraint firstItem="bub-uj-PFB" firstAttribute="trailing" secondItem="zeB-T9-1uX" secondAttribute="trailing" id="YJL-OR-laW"/>
-                            <constraint firstItem="g0e-pl-eQT" firstAttribute="leading" secondItem="bub-uj-PFB" secondAttribute="leading" id="jP1-5Q-jRv"/>
+                            <constraint firstItem="g0e-pl-eQT" firstAttribute="leading" secondItem="bub-uj-PFB" secondAttribute="leading" constant="-159" id="jP1-5Q-jRv"/>
                             <constraint firstItem="tMS-aA-LAh" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" id="pdV-n6-sic"/>
                             <constraint firstItem="tMS-aA-LAh" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="17" id="rIa-dG-BAV"/>
-                            <constraint firstItem="tMS-aA-LAh" firstAttribute="centerX" secondItem="bub-uj-PFB" secondAttribute="centerX" id="upI-tS-5th"/>
+                            <constraint firstItem="tMS-aA-LAh" firstAttribute="centerX" secondItem="bub-uj-PFB" secondAttribute="centerX" constant="-79.5" id="upI-tS-5th"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="tMS-aA-LAh" secondAttribute="trailing" constant="23" id="zzL-dR-Bkd"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <connections>
+                        <outlet property="activityIndicator" destination="vc3-Cc-11d" id="1ph-HA-pKA"/>
+                        <outlet property="syncBtn" destination="bub-uj-PFB" id="Cha-Jo-YbU"/>
                         <outlet property="tableView" destination="tMS-aA-LAh" id="paa-ho-Ol3"/>
                     </connections>
                 </viewController>

@@ -27,28 +27,37 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         })
         return true
     }
+
     
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
         let subscription = CKQuerySubscription(recordType: "Poeple", predicate: NSPredicate(format: "TRUEPREDICATE"), options: [.firesOnRecordCreation, .firesOnRecordDeletion, .firesOnRecordUpdate])
-
-        let info = CKSubscription.NotificationInfo()
-        info.alertBody = "A new notification has been posted!"
-        info.shouldBadge = true
-        info.soundName = "default"
-
-        subscription.notificationInfo = info
-
-        let myContainer = CKContainer(identifier: "iCloud.cloudCommonWorld")
-        let privateDatabase = myContainer.privateCloudDatabase
-        privateDatabase.save(subscription, completionHandler: { subscription, error in
-            if error == nil {
-                // Subscription saved successfully
-            } else {
-                // An error occurred
-                print("sub wasnt made --- \(error)")
-            }
-        })
+        
+        let db = SYNC.shared
+        
+        db.saveSubscription()
     }
+    
+//    func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
+//        let subscription = CKQuerySubscription(recordType: "Poeple", predicate: NSPredicate(format: "TRUEPREDICATE"), options: [.firesOnRecordCreation, .firesOnRecordDeletion, .firesOnRecordUpdate])
+//
+//        let info = CKSubscription.NotificationInfo()
+//        info.alertBody = "A new notification has been posted!"
+//        info.shouldBadge = true
+//        info.soundName = "default"
+//
+//        subscription.notificationInfo = info
+//
+//        let myContainer = CKContainer(identifier: "iCloud.cloudCommonWorld")
+//        let privateDatabase = myContainer.privateCloudDatabase
+//        privateDatabase.save(subscription, completionHandler: { subscription, error in
+//            if error == nil {
+//                // Subscription saved successfully
+//            } else {
+//                // An error occurred
+//                print("sub wasnt made --- \(error)")
+//            }
+//        })
+//    }
 //
 //    func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
 //
@@ -58,18 +67,22 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 
     
     func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
+        print("notifications start")
         let dict = userInfo as! [String: NSObject]
-//        let notification = CKNotification(fromRemoteNotificationDictionary: dict)
-//        if notification.subscriptionID == db.subscriptionID {
-//            //db.handleNotification()
-//            completionHandler(.newData)
-//        }
-//        else {
-//            completionHandler(.noData)
-//        }
+        let notification = CKNotification(fromRemoteNotificationDictionary: dict)
+        let db = SYNC.shared
+        if notification.subscriptionID == db.subscriptionID {
+            print("subcription id match!!!")
+            db.handleNotification()
+            completionHandler(.newData)
+        }
+        else {
+            print("subcription id doesnt match!!!")
+            completionHandler(.noData)
+        }
         
-        let nc = NotificationCenter.default
-        nc.post(name: Notification.Name("peopleupdated"), object: nil, userInfo: nil)
+//        let nc = NotificationCenter.default
+//        nc.post(name: Notification.Name("peopleupdated"), object: nil, userInfo: nil)
     }
     
     
