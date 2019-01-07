@@ -48,6 +48,10 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         
         fetchpeople()
         
+        sync.createZone { (error) in
+            print("failed to create zone because: \(error)")
+        }
+        
         sync.handleNotification()
         
         showingProcessing(title: "Syncing...")
@@ -97,9 +101,16 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
-        
+        var status = ""
+        print(people)
         let person = people[indexPath.row]
-        cell.textLabel?.text = person.firstname! + " " + person.lastname! + "-- \(person.synced)"
+        
+        if person.synced {
+            status = "Synced"
+        }else{
+            status = "not synced"
+        }
+        cell.textLabel?.text = person.firstname! + " " + person.lastname! + "-- \(status)"
         return cell
     }
     

@@ -143,9 +143,9 @@ class SYNC {
         operation.recordChangedBlock = { record in
             
             print("Record!!!!!! \(record.recordID.recordName)")
-           // self.delegate?.cloudkitUpdated(record: record)
+            self.delegate?.cloudkitUpdated(record: record)
             let recordname = record.recordID.recordName
-           // print("first ---\(record.value(forKey: "first")) ---- last \(record.value(forKey: "first"))")
+            print("first ---\(record.value(forKey: "first")) ---- last \(record.value(forKey: "first"))")
             if record.value(forKey: "first") != nil {
                 let first = record.value(forKey: "first") as! String
                 let last = record.value(forKey: "last") as! String

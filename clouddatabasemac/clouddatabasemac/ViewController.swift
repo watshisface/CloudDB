@@ -32,6 +32,8 @@ class ViewController: NSViewController, NSTableViewDataSource, NSTableViewDelega
         startTimer()
         
         savingLbl.isHidden = true
+        
+    
     }
 
     override var representedObject: Any? {
@@ -82,11 +84,11 @@ class ViewController: NSViewController, NSTableViewDataSource, NSTableViewDelega
     
     
     func create(){
+        
         savingLbl.isHidden = false
         self.contacts.append(self.firstName.stringValue + " " + self.lastName.stringValue)
         tableView.reloadData()
         resetTimer()
-        
         
         let zone = CKRecordZone(zoneName: "prototype")
         let zoneID = zone.zoneID
@@ -98,7 +100,6 @@ class ViewController: NSViewController, NSTableViewDataSource, NSTableViewDelega
         record["last"] = lastName.stringValue as NSString
         
         save(artworkRecord: record)
-        
         
     }
     
@@ -127,8 +128,6 @@ class ViewController: NSViewController, NSTableViewDataSource, NSTableViewDelega
                 self.resetTimer()
             }
         }
-        
-        
     }
 
     @IBAction func saveBtn_click(_ sender: Any) {

@@ -160,9 +160,9 @@ class SYNC {
         }
         
         operation.recordZoneFetchCompletionBlock = { zoneID, changeToken, data, more, error in
-        //    print("From zone: \(zoneID) -- \(changeToken) -- Data \(data) -- \(more) -- \(error)")
+        //print("From zone: \(zoneID) -- \(changeToken) -- Data \(data) -- \(more) -- \(error)")
             guard error == nil else {
-//                print("failed2 \(error)")
+                //print("failed2 \(error)")
                 return
             }
             guard let changeToken = changeToken else {
@@ -185,7 +185,7 @@ class SYNC {
         let db = container.privateCloudDatabase
         db.add(operation)
     }
-    
+
     
     func updateCore(recordName: String, first: String, last: String) {
         let appDelegate = UIApplication.shared.delegate as? AppDelegate
