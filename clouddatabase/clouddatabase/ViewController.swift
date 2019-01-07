@@ -46,11 +46,9 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         
         tableView.tableFooterView = UIView()
         
-        fetchpeople()
         
-        sync.createZone { (error) in
-            print("failed to create zone because: \(error)")
-        }
+        
+        
         
         sync.handleNotification()
         
