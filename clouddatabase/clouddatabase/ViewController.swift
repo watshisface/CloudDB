@@ -52,7 +52,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         
         sync.handleNotification()
         
-        showingProcessing(title: "Syncing...")
+       // showingProcessing(title: "Syncing...")
         
         let connected : Reachability = Reachability()
         if connected.isConnectedToNetwork() {
@@ -101,6 +101,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
         var status = ""
         print(people)
+        if people.count > indexPath.row - 1 {
         let person = people[indexPath.row]
         
         if person.synced {
@@ -108,7 +109,11 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         }else{
             status = "not synced"
         }
-        cell.textLabel?.text = person.firstname! + " " + person.lastname! + "-- \(status)"
+            cell.textLabel?.text = person.firstname! + " " + person.lastname! + "-- \(status)"
+        }
+        else{
+            cell.textLabel?.text = ""
+        }
         return cell
     }
     
