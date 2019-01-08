@@ -135,7 +135,10 @@ class SYNC {
             if record.value(forKey: "first") != nil {
                 let first = record.value(forKey: "first") as! String
                 let last = record.value(forKey: "last") as! String
-                self.updateCore(recordName: recordname, first: first, last: last)
+                if self.recordExists(id: recordname){
+                }else{
+                    self.updateCore(recordName: recordname, first: first, last: last)
+                }
             }else{
                 print("doesnt have record Values")
             }
@@ -143,7 +146,7 @@ class SYNC {
         
         operation.recordWithIDWasDeletedBlock = { recordID, recordType in
             //print("Record!!!!!! \(recordID.recordName)")
-            self.deletePerson(id: recordID.recordName)
+            self.deleteFromCore(id: recordID.recordName)
             
         }
         
@@ -237,8 +240,9 @@ class SYNC {
     
     
     
-    func deletePerson(id: String) {
-        print("deleting!!!! \(id)")
+    func deleteFromCore(id: String) {
+        
+        print("deleting person!!!! \(id)")
         let appDelegate = UIApplication.shared.delegate as? AppDelegate
         let managedObjectContext = appDelegate?.persistentContainer.viewContext
         
@@ -252,8 +256,8 @@ class SYNC {
                 guard let _context = managedObjectContext else { return }
                 let object = managedObjectContext?.object(with: contacts[0].objectID) as! People
                 _context.delete(object)
-                nc.post(name: Notification.Name("peopleupdated"), object: nil)
-                nc.post(name: Notification.Name("reloadcore"), object: nil)
+//                nc.post(name: Notification.Name("peopleupdated"), object: nil)
+//                nc.post(name: Notification.Name("reloadcore"), object: nil)
             }
         } catch {
             print("not Saved")
@@ -297,10 +301,10 @@ class SYNC {
         operation.modifyRecordsCompletionBlock = { added, deleted, error in
             //print("deleting: \(added)  ---   \(deleted)  ---  \(error)")
             if error != nil {
-              //  print(error) // print error if any
+                print(error) // print error if any
             } else {
                 // no errors, all set!
-                self.deletePerson(id: recordName)
+                self.deleteFromCore(id: recordName)
             }
         }
         
@@ -339,6 +343,13 @@ class SYNC {
                             print("uploaded \(contact.firstname)")
                         }
                     }
+                    
+                    if contact.removed {
+                        print("\(contact.firstname) deleted from core but not cloud")
+                        self.deleteFromCloud(recordName: contact.id!)
+                    }else{
+                        
+                    }
                 }
                 
                 nc.post(name: Notification.Name("peopleupdated"), object: nil)
@@ -349,6 +360,63 @@ class SYNC {
         }
     }
     
+    func markAsRemoved(id: String) {
+        print("changing to removed!!!! \(id)")
+        let appDelegate = UIApplication.shared.delegate as? AppDelegate
+        let managedObjectContext = appDelegate?.persistentContainer.viewContext
+        
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "People")
+        fetchRequest.predicate = NSPredicate(format: "id = %@", id)
+        
+        do {
+            let contacts = try managedObjectContext?.fetch(fetchRequest) as! [People]
+            print("number of found records!!!! : \(contacts.count)")
+            if contacts.count > 0 {
+                guard let _context = managedObjectContext else { return }
+                let object = managedObjectContext?.object(with: contacts[0].objectID) as! People
+                //print("found\(object.firstname)")
+                object.removed = true
+                do {
+                    
+                    try _context.save()
+                    let connected : Reachability = Reachability()
+                    if connected.isConnectedToNetwork() {
+                        self.deleteFromCloud(recordName: id)
+                    }else{
+                        nc.post(name: Notification.Name("reloadcore"), object: nil)
+                    }
+                    
+                    
+                } catch {
+                    print("not Saved")
+                }
+            }
+        } catch {
+            print("not Saved")
+        }
+    }
+    
+    
+    func recordExists(id: String) -> Bool {
+        print("checking for record!!! \(id)")
+        let appDelegate = UIApplication.shared.delegate as? AppDelegate
+        let managedObjectContext = appDelegate?.persistentContainer.viewContext
+        
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "People")
+        fetchRequest.predicate = NSPredicate(format: "id = %@", id)
+        
+        do {
+            let contacts = try managedObjectContext?.fetch(fetchRequest) as! [People]
+            print("number of found records!!!! : \(contacts.count)")
+            if contacts.count > 0 {
+                return true
+            }
+            
+        } catch {
+            print("not Saved")
+        }
+        return false
+    }
 
 
 

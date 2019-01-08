@@ -71,6 +71,8 @@ class SYNCPerson {
             object.synced = false
         }
         
+        object.removed = false
+        
         print(object)
         do {
             try _context.save()

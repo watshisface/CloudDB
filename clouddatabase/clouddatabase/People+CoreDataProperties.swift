@@ -21,5 +21,6 @@ extension People {
     @NSManaged public var lastname: String?
     @NSManaged public var id: String?
     @NSManaged public var synced: Bool
+    @NSManaged public var removed: Bool
 
 }

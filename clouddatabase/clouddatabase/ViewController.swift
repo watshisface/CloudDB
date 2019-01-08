@@ -46,7 +46,9 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         
         tableView.tableFooterView = UIView()
         
-        
+        sync.createZone { (error) in
+            print("did create the zone because: \(error)")
+        }
         
         
         
@@ -54,16 +56,16 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         
        // showingProcessing(title: "Syncing...")
         
-        let connected : Reachability = Reachability()
-        if connected.isConnectedToNetwork() {
-            sync.pushToCloud()
-        }
+        
     }
     
 
     
     override func viewDidAppear(_ animated: Bool) {
-        
+        let connected : Reachability = Reachability()
+        if connected.isConnectedToNetwork() {
+            sync.pushToCloud()
+        }
         fetchpeople()
     }
     
@@ -100,8 +102,8 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
         var status = ""
-        print(people)
-        if people.count > indexPath.row - 1 {
+        print("number of record: \(people.count) --- \(indexPath.row)")
+       // if people.count > indexPath.row - 1 {
         let person = people[indexPath.row]
         
         if person.synced {
@@ -109,11 +111,11 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         }else{
             status = "not synced"
         }
-            cell.textLabel?.text = person.firstname! + " " + person.lastname! + "-- \(status)"
-        }
-        else{
-            cell.textLabel?.text = ""
-        }
+            cell.textLabel?.text = person.firstname! + " " + person.lastname! + "-- \(person.removed)"
+       // }
+//        else{
+//            cell.textLabel?.text = ""
+//        }
         return cell
     }
     
@@ -142,7 +144,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         let person = people[indexPath.row]
         
         let delete = UITableViewRowAction(style: UITableViewRowAction.Style.normal, title: "Delete") { (action: UITableViewRowAction, indexPath: IndexPath) in
-            self.sync.deleteFromCloud(recordName: person.id!)
+            self.sync.markAsRemoved(id: person.id!)
         }
         
         delete.backgroundColor = UIColor.red
@@ -155,6 +157,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     @objc func fetchpeople()
     {
+        print("fetching contacts!!!!!!!!!!!!!!")
         people.removeAll()
         let appDelegate = UIApplication.shared.delegate as? AppDelegate
         let managedObjectContext = appDelegate?.persistentContainer.viewContext
@@ -162,6 +165,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "People")
         let sortDescriptor = NSSortDescriptor(key: "firstname", ascending: true)
         fetchRequest.sortDescriptors = [sortDescriptor]
+        fetchRequest.predicate = NSPredicate(format: "removed = %@", false)
         
         do {
             let contacts = try managedObjectContext?.fetch(fetchRequest) as! [People]
@@ -170,7 +174,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 for contact in contacts {
                     people.append(contact)
                 }
-                
+                print("fetched: \(people.count) people!!!")
                 DispatchQueue.main.async {
                     self.tableView.reloadData()
                     self.hideProcessing()
