@@ -11,7 +11,8 @@ import CloudKit
 
 class ViewController: NSViewController, NSTableViewDataSource, NSTableViewDelegate {
 
-    var contacts: [String] = []
+    var contacts: [(String, String, String)] = []
+    var recordName: String?
     @IBOutlet weak var tableView: NSTableView!
     var syncTimer = Timer()
     
@@ -60,7 +61,8 @@ class ViewController: NSViewController, NSTableViewDataSource, NSTableViewDelega
             for record in records! {
                 let firstname = record.value(forKey: "first") as! String
                 let lastname = record.value(forKey: "last") as! String
-                self.contacts.append(firstname + " " + lastname)
+                let recordname = record.recordID.recordName
+                self.contacts.append((firstname, lastname, recordname))
             }
             //print(self.contacts)
             DispatchQueue.main.async {
@@ -79,20 +81,38 @@ class ViewController: NSViewController, NSTableViewDataSource, NSTableViewDelega
     }
     
     func tableView(_ tableView: NSTableView, objectValueFor tableColumn: NSTableColumn?, row: Int) -> Any? {
-        return contacts[row]
+        let (a, b, _) = contacts[row]
+        return a + " " + b
+    }
+    
+    func tableViewSelectionDidChange(_ notification: Notification) {
+        if let myTable = notification.object as? NSTableView {
+            
+                    let (a, b, c) = contacts[myTable.selectedRow]
+                    firstName.stringValue = a
+                    lastName.stringValue = b
+                    recordName = c
+            }
+        
     }
     
     
     func create(){
+        var uuid = UUID().uuidString
         
+        if recordName != nil {
+            uuid = recordName!
+        }else{
+            self.contacts.append((self.firstName.stringValue, self.lastName.stringValue, uuid ))
+            tableView.reloadData()
+        }
         savingLbl.isHidden = false
-        self.contacts.append(self.firstName.stringValue + " " + self.lastName.stringValue)
-        tableView.reloadData()
+        
         resetTimer()
         
         let zone = CKRecordZone(zoneName: "prototype")
         let zoneID = zone.zoneID
-        let recordID = CKRecord.ID(recordName: UUID().uuidString, zoneID: zoneID)
+        let recordID = CKRecord.ID(recordName: uuid, zoneID: zoneID)
         //let artworkRecordID = CKRecord.ID(recordName: UUID().uuidString)
         let record = CKRecord(recordType: "Poeple", recordID: recordID)
         
@@ -145,6 +165,12 @@ class ViewController: NSViewController, NSTableViewDataSource, NSTableViewDelega
     }
     
     
+    @IBAction func newBtn_click(_ sender: Any) {
+        firstName.stringValue = ""
+        lastName.stringValue = ""
+        recordName = nil
+        firstName.becomeFirstResponder()
+    }
     
 }
 

@@ -66,6 +66,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         if connected.isConnectedToNetwork() {
             sync.pushToCloud()
         }
+        
         fetchpeople()
     }
     
@@ -111,7 +112,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         }else{
             status = "not synced"
         }
-            cell.textLabel?.text = person.firstname! + " " + person.lastname! + "-- \(person.removed)"
+            cell.textLabel?.text = person.firstname! + " " + person.lastname! + "-- \(status)"
        // }
 //        else{
 //            cell.textLabel?.text = ""

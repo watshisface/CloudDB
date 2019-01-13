@@ -15,6 +15,10 @@ class NewVC: UIViewController {
 
     @IBOutlet weak var first: UITextField!
     @IBOutlet weak var last: UITextField!
+    @IBOutlet weak var saveBtn: UIButton!
+    
+    
+    
     
     var person: People?
     var firstname: String?
@@ -31,6 +35,7 @@ class NewVC: UIViewController {
         if person != nil {
             first.text = person?.firstname
             last.text =  person?.lastname
+            saveBtn.setTitle("Update", for: UIControl.State.normal)
         }
         
         
@@ -42,7 +47,7 @@ class NewVC: UIViewController {
         //let publicDatabase = myContainer.publicCloudDatabase
         let database = myContainer.privateCloudDatabase
         
-        let recordID = CKRecord.ID(recordName: recordName!)
+        let recordID = CKRecord.ID(recordName: (person?.id)!)
         
         database.fetch(withRecordID: recordID) { record, error in
             
@@ -71,9 +76,11 @@ class NewVC: UIViewController {
         sync.last = last.text
         
         if person != nil {
+            print("updating")
             let updateSync : SYNC = SYNC()
-            updateSync.updateCore(recordName: (person?.id)!, first: (person?.firstname)!, last: (person?.lastname)!)
+            update()
         }else{
+            print("creating new")
             if sync.saveRecord(andToCloud: true) {
                 self.dismiss(animated: true, completion: nil)
             }

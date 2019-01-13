@@ -135,10 +135,12 @@ class SYNC {
             if record.value(forKey: "first") != nil {
                 let first = record.value(forKey: "first") as! String
                 let last = record.value(forKey: "last") as! String
-                if self.recordExists(id: recordname){
-                }else{
+//                if self.recordExists(id: recordname){
+//                    print("record needs to updated in core")
+//
+                //}else{
                     self.updateCore(recordName: recordname, first: first, last: last)
-                }
+                //}
             }else{
                 print("doesnt have record Values")
             }
@@ -191,6 +193,7 @@ class SYNC {
 
     
     func updateCore(recordName: String, first: String, last: String) {
+        print("updating core!!")
         let appDelegate = UIApplication.shared.delegate as? AppDelegate
         let managedObjectContext = appDelegate?.persistentContainer.viewContext
         
@@ -226,7 +229,6 @@ class SYNC {
                     try _context.save()
                     nc.post(name: Notification.Name("peopleupdated"), object: nil)
                     nc.post(name: Notification.Name("reloadcore"), object: nil)
-                    //TODO: put check for internet connection
                 } catch {
                     print("not Saved")
                 }
@@ -256,8 +258,8 @@ class SYNC {
                 guard let _context = managedObjectContext else { return }
                 let object = managedObjectContext?.object(with: contacts[0].objectID) as! People
                 _context.delete(object)
-//                nc.post(name: Notification.Name("peopleupdated"), object: nil)
-//                nc.post(name: Notification.Name("reloadcore"), object: nil)
+                nc.post(name: Notification.Name("peopleupdated"), object: nil)
+                nc.post(name: Notification.Name("reloadcore"), object: nil)
             }
         } catch {
             print("not Saved")

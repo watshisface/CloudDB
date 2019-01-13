@@ -156,6 +156,7 @@
                     <connections>
                         <outlet property="first" destination="YM7-hF-qku" id="byr-g2-Wcg"/>
                         <outlet property="last" destination="qKO-Z3-Zem" id="MmF-K3-k6G"/>
+                        <outlet property="saveBtn" destination="fGU-UY-8bQ" id="eE0-Ph-lHr"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="QUv-1P-gar" userLabel="First Responder" sceneMemberID="firstResponder"/>
