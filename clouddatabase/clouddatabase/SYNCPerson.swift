@@ -29,6 +29,8 @@ class SYNCPerson {
         
     }
     
+    let nc = NotificationCenter.default
+    
     private var personRecord: CKRecord?
     private let recordName = "Poeple"
     private let version = 1
@@ -77,6 +79,8 @@ class SYNCPerson {
         do {
             try _context.save()
             //TODO: put check for internet connection
+            nc.post(name: Notification.Name("peopleupdated"), object: nil)
+            nc.post(name: Notification.Name("reloadcore"), object: nil)
             return true
         } catch {
             print("not Saved")
